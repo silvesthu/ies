@@ -38,6 +38,7 @@
 #include <assert.h>
 #include <algorithm>
 #include <functional>
+#include <cmath>
 
 IESFileInfo::IESFileInfo()
 	: _cachedIntegral(std::numeric_limits<float>::max())
@@ -124,7 +125,7 @@ IESLoadHelper::load(const std::string& data, IESFileInfo& info)
 	}
 
 	this->getFloat(dataPos, dataPos, info.totalLumens);
-	if (info.totalLumens < 0)
+	if (info.totalLumens < 0 && info.totalLumens != -1.0f /* absolute photometry */)
 	{
 		info._error = "TotalLumens is not positive number";
 		return false;
